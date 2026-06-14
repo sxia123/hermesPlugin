@@ -1,0 +1,12 @@
+discord_agents:
+  bot_token: "YOUR_BOT_TOKEN_HERE"
+  soul_path: "./soul.md"               # This agent's soul file
+  peer_souls_dir: "./souls"            # Directory with peer soul.md files
+  watch_channels:
+    - "agent-coordination"             # Channels to monitor for threads
+  thread_history_depth: 200            # Max messages to fetch per thread
+  max_turns_per_conversation: 10
+  context_window_size: 20
+  summarize_after: 10
+  enable_logging: true
+  loop_detection_threshold: 3

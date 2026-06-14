@@ -1,0 +1,10 @@
+name: hermes-discord-agents
+version: "0.1.0"
+description: >
+  Bare minimum Hermes-powered Discord bot plugin allowing bots to see
+  and respond to other bots' messages.
+provides_tools:
+  - agent_send_message
+provides_hooks:
+  - on_session_start
+  - on_session_end
