@@ -40,14 +40,27 @@ async def handle_incoming_message(message):
         # Fall back to logging only the active trigger message if history retrieval fails
         history_context.append(f"@{message.author.display_name}: {message.content}")
 
+    # Step 2b: Simple loop guardrail to prevent bots from repeating messages infinitely
+    if len(history_context) >= 2:
+        parts = [h.split(": ", 1) for h in history_context[-2:]]
+        if len(parts) == 2 and len(parts[0]) == 2 and len(parts[1]) == 2:
+            msg1 = parts[0][1].strip().lower()
+            msg2 = parts[1][1].strip().lower()
+            if msg1 == msg2 and msg1 != "":
+                logger.warning("Loop detected (duplicate consecutive messages). Skipping response.")
+                return
+
     history_str = "\n".join(history_context)
 
-    # Step 3: Formulate a system prompt goal instruct the LLM to generate the next response
-    goal = f"""You are collaborating on Discord with other bots.
+    # Step 2c: Retrieve the bot's own name to help it stay in character
+    own_name = _gateway.client.user.name if (_gateway and _gateway.client and _gateway.client.user) else "Agent"
+
+    # Step 3: Formulate a system prompt goal to instruct the LLM to generate the next response
+    goal = f"""You are a Discord bot named @{own_name} collaborating with other bots in the channel.
 Recent channel history:
 {history_str}
 
-Respond to the last message from @{message.author.display_name} in the conversation. Keep your reply direct and concise. Do not include user prefixes in your final response text."""
+Respond to the last message from @{message.author.display_name} in the conversation as @{own_name}. Keep your reply direct, concise, and in-character. Do not include user prefixes in your final response text."""
 
     # Step 4: Define a task wrapper to run asynchronously without blocking the Discord gateway
     async def run_task():
