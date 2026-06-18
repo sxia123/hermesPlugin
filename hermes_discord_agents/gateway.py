@@ -125,10 +125,9 @@ class DiscordGateway:
             return None
         try:
             # Step 1: Get channel object from local cache, or fetch it from API
-            target_id = int(channel_id)
-            channel = self.client.get_channel(target_id)
+            channel = self.client.get_channel(channel_id)
             if not channel:
-                channel = await self.client.fetch_channel(target_id)
+                channel = await self.client.fetch_channel(channel_id)
             
             # Step 2: Send the message (enforcing Discord's 2000 character limit)
             if channel:
