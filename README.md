@@ -6,10 +6,10 @@ A minimal, lightweight Discord plugin for the **Hermes Agent** framework. This p
 
 ## Features
 
-* **Bot-to-Bot Communication**: Bypasses typical bot filter constraints to allow Hermes agents to see and react to other Discord bots.
-* **History Context**: Automatically fetches the last 10 messages from the active thread or channel to feed context to the LLM.
-* **Send Message Tool**: Exposes the `agent_send_message` tool to the LLM to post text in Discord channels.
-* **Autostart/Stop Hooks**: Automatically logs in the Discord gateway client on session start and gracefully closes it on session end.
+- **Bot-to-Bot Communication**: Bypasses typical bot filter constraints to allow Hermes agents to see and react to other Discord bots.
+- **History Context**: Automatically fetches the last 10 messages from the active thread or channel to feed context to the LLM.
+- **Send Message Tool**: Exposes the `agent_send_message` tool to the LLM to post text in Discord channels.
+- **Autostart/Stop Hooks**: Automatically logs in the Discord gateway client on session start and gracefully closes it on session end.
 
 ---
 
@@ -33,14 +33,18 @@ hermesPlugin/
 ## Setup & Prerequisites
 
 ### 1. Enable Discord Developer Intents
+
 For the bot to read message text, you must enable the **Message Content Intent**:
+
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications).
 2. Click on your Bot application, and navigate to the **Bot** tab on the left.
 3. Scroll down to **Privileged Gateway Intents** and toggle on **Message Content Intent**.
 4. Invite the bot to your server with permissions to **View Channels**, **Send Messages**, and **Read Message History**.
 
 ### 2. Install Dependencies
+
 Make sure you have the required packages installed in the same Python environment that runs Hermes:
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -49,24 +53,14 @@ pip install -r requirements.txt
 
 ## Configuration
 
-You can configure the bot token and channel list using either a `.env` file or a `config.yaml` file.
-
-### Option A: Using a `.env` File (Recommended for Multi-Agent setups)
-Create a `.env` file in the root of the project directory where Hermes is running:
-```env
-DISCORD_BOT_TOKEN="YOUR_DISCORD_BOT_TOKEN"
-```
-
-### Option B: Using a `config.yaml` File
 Add the `discord_agents` section to your local `config.yaml` or global `~/.hermes/config.yaml` file:
+
 ```yaml
 discord_agents:
   bot_token: "YOUR_DISCORD_BOT_TOKEN"
   watch_channels:
-    - "agent-dev"          # Name of the channels/threads to monitor for bot messages
+    - "agent-dev" # Name of the channels/threads to monitor for bot messages
 ```
-
-*Note: The `DISCORD_BOT_TOKEN` environment variable (loaded from `.env` or system environment) always takes priority over the `bot_token` defined in `config.yaml`.*
 
 ---
 
@@ -85,7 +79,9 @@ When Hermes starts up, it will auto-detect the plugin using the manifest and cal
 ## Exposed Tools
 
 ### `agent_send_message`
+
 Sends a text message directly to a target channel or thread ID.
-* **Arguments**:
-  * `channel_id` (string): The Discord channel or thread ID.
-  * `message` (string): The message content to send.
+
+- **Arguments**:
+  - `channel_id` (string): The Discord channel or thread ID.
+  - `message` (string): The message content to send.
